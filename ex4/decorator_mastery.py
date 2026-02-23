@@ -11,7 +11,6 @@ def spell_timer(func: callable) -> callable:
         elapsed = time.time() - start
         print(f"Spell completed in {elapsed:.3f} seconds")
         return result
-
     return wrapper
 
 
@@ -19,13 +18,11 @@ def power_validator(min_power: int) -> callable:
     def decorator(func: callable) -> callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
-            power = args[0] if args else kwargs.get('power', 0)
+            power = args[1] if len(args) > 1 else kwargs.get('power', 0)
             if power >= min_power:
                 return func(*args, **kwargs)
             return "Insufficient power for this spell"
-
         return wrapper
-
     return decorator
 
 
@@ -38,12 +35,12 @@ def retry_spell(max_attempts: int) -> callable:
                     return func(*args, **kwargs)
                 except Exception:
                     if attempt < max_attempts:
-                        print(f"Spell failed, retrying... (attempt {attempt}/{max_attempts})")
+                        print("Spell failed, retrying..."
+                              f"(attempt {attempt}/{max_attempts})")
                     else:
-                        return f"Spell casting failed after {max_attempts} attempts"
-
+                        return ("Spell casting failed"
+                                f"after {max_attempts} attempts")
         return wrapper
-
     return decorator
 
 
@@ -64,7 +61,6 @@ if __name__ == "__main__":
     def fireball():
         time.sleep(0.1)
         return "Fireball cast!"
-
 
     print("Testing spell timer...")
     result = fireball()

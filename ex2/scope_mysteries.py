@@ -1,5 +1,6 @@
 def mage_counter() -> callable:
     count = 0
+
     def counter() -> int:
         nonlocal count
         count += 1
@@ -9,6 +10,7 @@ def mage_counter() -> callable:
 
 def spell_accumulator(initial_power: int) -> callable:
     power = initial_power
+
     def accumulate(moreover_power: int) -> int:
         nonlocal power
         power += moreover_power
@@ -22,8 +24,10 @@ def enchantment_factory(enchantment_type: str) -> callable:
 
 def memory_vault() -> dict[str, callable]:
     vault = {}
+
     def store(key, value) -> None:
         vault[key] = value
+
     def recall(key) -> str:
         if vault[key]:
             return vault[key]
@@ -59,6 +63,7 @@ def main() -> None:
     # mem = memory_vault()
     # mem["store"]("bagpack", "sword")
     # print(mem["recall"]("bagpack"))
+
 
 if __name__ == "__main__":
     main()
